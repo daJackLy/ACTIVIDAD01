@@ -10,14 +10,15 @@ Configuración:
 
 from entorno import GridWorld
 from mi_agente import MiAgente
+import random
 
 # ── Configuración del mapa ───────────────────────
 FILAS     = 10       # Alto del mapa
 COLUMNAS  = 10       # Ancho del mapa
-SEMILLA   = 42       # Cambiar para generar otro mapa
+SEMILLA   = random.randint(0, 9999)
 PAREDES   = 0.20     # Porcentaje de paredes (0.0 a 0.40)
 VELOCIDAD = 0.15     # Segundos entre pasos (menor = más rápido)
-MAX_PASOS = 50       # Máximo de pasos antes de rendirse
+MAX_PASOS = 150       # Máximo de pasos antes de rendirse
 # ─────────────────────────────────────────────────
 
 # Crear el mundo

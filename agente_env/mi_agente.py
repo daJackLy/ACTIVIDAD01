@@ -1,22 +1,13 @@
 from entorno import Agente
 
-
 class MiAgente(Agente):
 
     def __init__(self):
         super().__init__(nombre="Agente Utilidad")
         self.visitadas = set()
-        self.historial = []
-        self.retroceso = []
-
-    def al_iniciar(self):
-        """Se llama una vez al iniciar la simulación. Opcional."""
-        self.visitadas = set()
-        self.historial = []
-        self.retroceso = []
+        self.pila = []
 
     def decidir(self, percepcion):
-
         pos = percepcion['posicion']
         self.visitadas.add(pos)
 
@@ -30,13 +21,12 @@ class MiAgente(Agente):
             'izquierda': (0, -1), 'derecha': (0, 1),
         }
 
+        # Meta al lado?
         for direccion in self.ACCIONES:
             if percepcion[direccion] == 'meta':
                 return direccion
 
-        if self.retroceso:
-            return self.retroceso.pop(0)
-
+        # Buscar celda libre, de preferencia hacia la meta
         vert, horiz = percepcion['direccion_meta']
 
         preferencia = []
@@ -52,12 +42,11 @@ class MiAgente(Agente):
             dr, dc = delta[direccion]
             vecino = (pos[0] + dr, pos[1] + dc)
             if vecino not in self.visitadas:
-                self.historial.append(direccion)
+                self.pila.append(contraria[direccion])
                 return direccion
 
-        if self.historial:
-            self.retroceso = [contraria[a] for a in reversed(self.historial)]
-            self.historial = []
-            return self.retroceso.pop(0)
+        # Atascado, retroceder
+        if self.pila:
+            return self.pila.pop()
 
         return 'abajo'

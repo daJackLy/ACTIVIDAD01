@@ -89,8 +89,9 @@ class GridWorld:
         self.columnas = columnas
         self.semilla = semilla
 
+        rng = random.Random(semilla)
         self.inicio = (0, 0)
-        self.meta = (filas - 1, columnas - 1)
+        self.meta = (rng.randint(filas // 2, filas - 1), rng.randint(columnas // 2, columnas - 1))
 
         # Generar mapa: 0 = libre, 1 = pared
         self.mapa = self._generar_mapa(semilla, porcentaje_paredes)
